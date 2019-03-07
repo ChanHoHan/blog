@@ -1,7 +1,79 @@
-{% for blog in blogs.all%}
-    <h1>{{blog.title}}</h1>
-    <p>{{blog.pub_date}}</p>
-    <p>{{blog.title}}</p>
+<!DOCTYPE html>
+<html>
+    <head>
+            <link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
+            <meta charset="utf-8">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+            
+    {% extends 'base.html'%}
+    
+    <style>
+        
+        .w { text-align: left; }
+        .x { text-align: right; }
+        .y { text-align: center; }
+        .z { text-align: justify; }
+
+        .title{
+            color:rgb(0, 255, 255);
+        }
+        .morecolor {
+             color:rgb(255, 1, 35);
+        }
+        #footer {
+            position:absolute;
+            bottom:0;
+            width:100%;
+            height:70px;   
+            background:#ccc;
+        }    
+        
+
+    </style>
+    </head>
+
+    {% block contents %}
+    <body>
+    
+    {% for blog in posts%}
+    <div class = "container" style=" width: 40rem; height:60rem">
+    <div class="card" style=" width: 40rem; height:60rem">
+            <div class="card-body" style="margin: 15px 15px">
+            <font face = '바탕체'>
+              <h5 class="card-title y title" > {{blog.title}}</h5>
+            </font>
+              <h6 class="card-subtitle mb-2 text-muted x"> {{blog.pub_date}}</h6>
+              <br>
+              <p> <img src= "{{blog.image.url}}" width = 350 height = 300 ></p>
+              <p class="card-text"> {{blog.summary}}</p>
+              <a href="{%url 'detail' blog.id%}" class="card-link">...더보기</a></p>
+              <a href="#" class="card-link x">Another link</a>
+            </div>
+          </div>
+        
+        <br><br>
+    </div>
+    {%endfor%}
     <br><br>
-{%endfor%}
-<h1> hi</h1>
+    <div class = "container " style=" width: 15rem; height:60rem">
+    {%if posts.has_previous%}
+    <a href = "?page=1"> First </a>
+    <a href = "?page={{posts.previous_page_number}}">Previous</a>
+    {%endif%}
+
+    <span>{{posts.number}}</span>
+    <span>of</span>
+    <span>{{posts.paginator.num_pages}}</span>
+
+    {%if posts.has_next%}
+    <a href = "?page={{posts.next_page_number}}"> Next </a>
+    <a href = "?page={{posts.paginator.num_pages}}"> Last</a>
+    {%endif%}
+</div>
+
+    </body>
+    {%endblock%}
+</html>
